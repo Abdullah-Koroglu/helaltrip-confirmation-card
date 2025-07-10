@@ -81,7 +81,7 @@ export default function ConfirmationCard({
         <div className="flex justify-between items-start mb-8">
           <div className="flex items-center space-x-3">
             <div className="w-12 h-12 bg-emerald-700 rounded-full flex items-center justify-center">
-              <img src="/logo.png" alt="HelalTrip" className="w-12 h-12 object-cover" />
+              <img src="logo.png" alt="HelalTrip" className="w-12 h-12 object-cover" />
             </div>
             <div>
               <h1 className="text-2xl font-bold text-white">HelalTrip</h1>
@@ -107,7 +107,7 @@ export default function ConfirmationCard({
               <div className="bg-white/20 backdrop-blur-sm rounded-3xl p-6 mb-4">
                 <div className="aspect-video bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl overflow-hidden mb-4">
                   <Image
-                    src={`/hotels/${hotelName}.jpg`}
+                    src={`hotels/${hotelName}.jpg`}
                     alt="Hotel view"
                     width={300}
                     height={200}
@@ -172,7 +172,7 @@ export default function ConfirmationCard({
         {/* Footer */}
         <div className="flex justify-between items-end mt-12">
           <div className="flex items-center space-x-3">
-            <img src="/instagram.png" alt="Instagram" className="w-12 h-12" />
+            <img src="instagram.png" alt="Instagram" className="w-12 h-12" />
             <div>
               <p className="text-white font-semibold">/helaltrip</p>
               <p className="text-white text-lg">0533 818 99 58</p>
