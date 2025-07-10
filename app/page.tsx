@@ -143,10 +143,16 @@ export default function HotelConfirmationGenerator() {
 
     const startDay = startDate.getDate()
     const endDay = endDate.getDate()
-    const month = months[startDate.getMonth()]
+    const startMonth = startDate.getMonth()
+    const endMonth = endDate.getMonth()
+    const month = months[startMonth]
     const year = startDate.getFullYear()
 
-    return `${startDay}-${endDay} ${month} ${year}`
+    if (startMonth === endMonth) {
+      return `${startDay}-${endDay} ${month} ${year}`
+    } else {
+      return `${startDay} ${month} - ${endDay} ${months[endMonth]} ${year}`
+    }
   }
 
   const downloadScreenshot = async () => {
