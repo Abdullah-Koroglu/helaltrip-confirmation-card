@@ -6,7 +6,7 @@ interface ConfirmationCardProps {
   hotelName: string
   dateRange: string
   adults: number
-  children: number
+  childrenCount: number
   roomType: string
   numberOfNights: number
   reservationNumber: string
@@ -32,7 +32,7 @@ export default function ConfirmationCard({
   hotelName,
   dateRange,
   adults,
-  children,
+  childrenCount,
   roomType,
   numberOfNights,
   reservationNumber,
@@ -149,7 +149,7 @@ export default function ConfirmationCard({
 
               <div>
                 <span className="font-semibold">{translations.guestCount}</span> {adults} {translations.adults}{" "}
-                {children > 0 && `x ${children} ${translations.children}`}
+                {childrenCount > 0 && `x ${childrenCount} ${translations.children}`}
               </div>
 
               <div>

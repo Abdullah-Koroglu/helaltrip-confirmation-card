@@ -342,7 +342,7 @@ export default function HotelConfirmationGenerator() {
                     hotelName={reservationData.hotelName}
                     dateRange={formatDateRange(reservationData.checkInDate, reservationData.checkOutDate)}
                     adults={reservationData.adults}
-                    children={reservationData.children}
+                    childrenCount={reservationData.children}
                     roomType={reservationData.roomType}
                     numberOfNights={reservationData.numberOfNights}
                     reservationNumber={reservationData.reservationNumber}
