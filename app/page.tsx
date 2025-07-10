@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { CalendarIcon, Users, Bed, Calendar, Hash, Globe } from "lucide-react"
 import ConfirmationCard from "./components/confirmation-card"
 import html2canvas from "html2canvas-pro"
+import { addresses } from "./components/addresses"
 
 interface ReservationData {
   customerName: string
@@ -370,6 +371,11 @@ export default function HotelConfirmationGenerator() {
                     reservationNumber={reservationData.reservationNumber}
                     language={language}
                     translations={languages[language]}
+                    hotelAddress={addresses.find((address) => address.name === reservationData.hotelName) || {
+                      name: "",
+                      address: "",
+                      city: "",
+                    }}
                   />
                 </div>
               </div>
