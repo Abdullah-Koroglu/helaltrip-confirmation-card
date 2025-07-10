@@ -1,103 +1,360 @@
-import Image from "next/image";
+"use client"
 
-export default function Home() {
+import { useState, useRef } from "react"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { CalendarIcon, Users, Bed, Calendar, Hash, Globe } from "lucide-react"
+import ConfirmationCard from "./components/confirmation-card"
+import html2canvas from "html2canvas-pro"
+
+interface ReservationData {
+  customerName: string
+  hotelName: string
+  checkInDate: string
+  checkOutDate: string
+  adults: number
+  children: number
+  roomType: string
+  numberOfNights: number
+  reservationNumber: string
+}
+
+const hotels = [
+  "Wome Deluxe",
+  "Angel's Marmaris",
+  "Adenya",
+  "Sah Inn",
+  "The Oba",
+  "Adin Beach",
+  "Bera",
+  "Rizom Beach",
+  "Selge",
+  "Royal Teos",
+  "Rizom Tatil Köyü",
+]
+
+const languages = {
+  tr: {
+    reservationReady: "Rezervasyonunuz hazır.",
+    dear: "Sayın",
+    hotelName: "Otel Adı:",
+    date: "Tarih:",
+    guestCount: "Kişi Sayısı:",
+    adults: "Yetişkin",
+    children: "Çocuk",
+    roomType: "Oda Tipi:",
+    nights: "Gece Sayısı:",
+    night: "Gece",
+    reservationNumber: "Rezervasyon Numarası:",
+    goodHolidays: "İyi Tatiller",
+  },
+  en: {
+    reservationReady: "Your reservation is ready.",
+    dear: "Dear",
+    hotelName: "Hotel Name:",
+    date: "Date:",
+    guestCount: "Guest Count:",
+    adults: "Adult",
+    children: "Child",
+    roomType: "Room Type:",
+    nights: "Number of Nights:",
+    night: "Night",
+    reservationNumber: "Reservation Number:",
+    goodHolidays: "Good Holidays",
+  },
+}
+
+export default function HotelConfirmationGenerator() {
+  const [reservationData, setReservationData] = useState<ReservationData>({
+    customerName: "",
+    hotelName: "",
+    checkInDate: "",
+    checkOutDate: "",
+    adults: 1,
+    children: 0,
+    roomType: "",
+    numberOfNights: 1,
+    reservationNumber: "",
+  })
+
+  const [showConfirmation, setShowConfirmation] = useState(false)
+  const [language, setLanguage] = useState<"tr" | "en">("tr")
+  const confirmationCardRef = useRef<HTMLDivElement>(null)
+
+  const handleInputChange = (field: keyof ReservationData, value: string | number) => {
+    setReservationData((prev) => ({
+      ...prev,
+      [field]: value,
+    }))
+  }
+
+  const calculateNights = (checkIn: string, checkOut: string) => {
+    if (checkIn && checkOut) {
+      const start = new Date(checkIn)
+      const end = new Date(checkOut)
+      const diffTime = Math.abs(end.getTime() - start.getTime())
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+      return diffDays
+    }
+    return 1
+  }
+
+  const handleDateChange = (field: "checkInDate" | "checkOutDate", value: string) => {
+    const updatedData = { ...reservationData, [field]: value }
+
+    if (field === "checkInDate" || field === "checkOutDate") {
+      const nights = calculateNights(
+        field === "checkInDate" ? value : reservationData.checkInDate,
+        field === "checkOutDate" ? value : reservationData.checkOutDate,
+      )
+      updatedData.numberOfNights = nights
+    }
+
+    setReservationData(updatedData)
+  }
+
+  const generateConfirmation = () => {
+    setShowConfirmation(true)
+  }
+
+  const formatDateRange = (checkIn: string, checkOut: string) => {
+    if (!checkIn || !checkOut) return ""
+
+    const startDate = new Date(checkIn)
+    const endDate = new Date(checkOut)
+
+    const months = [
+      "OCAK",
+      "ŞUBAT",
+      "MART",
+      "NİSAN",
+      "MAYIS",
+      "HAZİRAN",
+      "TEMMUZ",
+      "AĞUSTOS",
+      "EYLÜL",
+      "EKİM",
+      "KASIM",
+      "ARALIK",
+    ]
+
+    const startDay = startDate.getDate()
+    const endDay = endDate.getDate()
+    const month = months[startDate.getMonth()]
+    const year = startDate.getFullYear()
+
+    return `${startDay}-${endDay} ${month} ${year}`
+  }
+
+  const downloadScreenshot = async () => {
+    if (confirmationCardRef.current) {
+      try {
+        const canvas = await html2canvas(confirmationCardRef.current, {
+          backgroundColor: null,
+          scale: 2,
+          useCORS: true,
+          allowTaint: true,
+        })
+
+        const link = document.createElement("a")
+        link.download = `rezervasyon-${reservationData.reservationNumber || "confirmation"}.png`
+        link.href = canvas.toDataURL()
+        link.click()
+      } catch (error) {
+        console.error("Screenshot error:", error)
+      }
+    }
+  }
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="min-h-screen bg-gray-50 py-8">
+      <div className="container mx-auto px-4 max-w-9xl">
+        <div className="grid lg:grid-cols-2 gap-4">
+          {/* Form Section */}
+          <div>
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-2xl font-bold text-gray-800">Rezervasyon Bilgileri</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="space-y-2">
+                  <Label htmlFor="customerName" className="flex items-center gap-2">
+                    <Users className="w-4 h-4" />
+                    Müşteri Adı
+                  </Label>
+                  <Input
+                    id="customerName"
+                    placeholder="Müşteri adını giriniz"
+                    value={reservationData.customerName}
+                    onChange={(e) => handleInputChange("customerName", e.target.value)}
+                  />
+                </div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+                <div className="space-y-2">
+                  <Label htmlFor="hotelName">Otel Adı</Label>
+                  <Select onValueChange={(value) => handleInputChange("hotelName", value)}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Otel seçiniz" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {hotels.map((hotel) => (
+                        <SelectItem key={hotel} value={hotel}>
+                          {hotel}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="checkIn" className="flex items-center gap-2">
+                      <CalendarIcon className="w-4 h-4" />
+                      Giriş Tarihi
+                    </Label>
+                    <Input
+                      id="checkIn"
+                      type="date"
+                      value={reservationData.checkInDate}
+                      onChange={(e) => handleDateChange("checkInDate", e.target.value)}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="checkOut" className="flex items-center gap-2">
+                      <CalendarIcon className="w-4 h-4" />
+                      Çıkış Tarihi
+                    </Label>
+                    <Input
+                      id="checkOut"
+                      type="date"
+                      value={reservationData.checkOutDate}
+                      onChange={(e) => handleDateChange("checkOutDate", e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="adults">Yetişkin Sayısı</Label>
+                    <Input
+                      id="adults"
+                      type="number"
+                      min="1"
+                      value={reservationData.adults}
+                      onChange={(e) => handleInputChange("adults", Number.parseInt(e.target.value) || 1)}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="children">Çocuk Sayısı</Label>
+                    <Input
+                      id="children"
+                      type="number"
+                      min="0"
+                      value={reservationData.children}
+                      onChange={(e) => handleInputChange("children", Number.parseInt(e.target.value) || 0)}
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="roomType" className="flex items-center gap-2">
+                    <Bed className="w-4 h-4" />
+                    Oda Tipi
+                  </Label>
+                  <Input
+                    id="roomType"
+                    placeholder="Oda tipini giriniz"
+                    value={reservationData.roomType}
+                    onChange={(e) => handleInputChange("roomType", e.target.value)}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="nights" className="flex items-center gap-2">
+                    <Calendar className="w-4 h-4" />
+                    Gece Sayısı
+                  </Label>
+                  <Input
+                    id="nights"
+                    type="number"
+                    min="1"
+                    value={reservationData.numberOfNights}
+                    onChange={(e) => handleInputChange("numberOfNights", Number.parseInt(e.target.value) || 1)}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="reservationNumber" className="flex items-center gap-2">
+                    <Hash className="w-4 h-4" />
+                    Rezervasyon Numarası
+                  </Label>
+                  <Input
+                    id="reservationNumber"
+                    placeholder="Rezervasyon numarasını giriniz"
+                    value={reservationData.reservationNumber}
+                    onChange={(e) => handleInputChange("reservationNumber", e.target.value)}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label className="flex items-center gap-2">
+                    <Globe className="w-4 h-4" />
+                    Kart Dili
+                  </Label>
+                  <Select value={language} onValueChange={(value: "tr" | "en") => setLanguage(value)}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="tr">Türkçe</SelectItem>
+                      <SelectItem value="en">English</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <Button onClick={generateConfirmation} className="w-full bg-emerald-500 hover:bg-emerald-600" size="lg">
+                  Onay Kartı Oluştur
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Confirmation Card Section */}
+          <div>
+            {showConfirmation && (
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-xl font-semibold text-gray-800">Rezervasyon Onay Kartı</h2>
+                  <Button
+                    onClick={downloadScreenshot}
+                    variant="outline"
+                    className="flex items-center gap-2 bg-transparent"
+                  >
+                    📸 Bu alanın ekran görüntüsünü alabilirsiniz
+                  </Button>
+                </div>
+                <div className="" ref={confirmationCardRef}>
+                  <ConfirmationCard
+                    customerName={reservationData.customerName}
+                    hotelName={reservationData.hotelName}
+                    dateRange={formatDateRange(reservationData.checkInDate, reservationData.checkOutDate)}
+                    adults={reservationData.adults}
+                    children={reservationData.children}
+                    roomType={reservationData.roomType}
+                    numberOfNights={reservationData.numberOfNights}
+                    reservationNumber={reservationData.reservationNumber}
+                    language={language}
+                    translations={languages[language]}
+                  />
+                </div>
+              </div>
+            )}
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </div>
     </div>
-  );
+  )
 }
