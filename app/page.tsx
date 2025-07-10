@@ -126,32 +126,48 @@ export default function HotelConfirmationGenerator() {
     const startDate = new Date(checkIn)
     const endDate = new Date(checkOut)
 
-    const months = [
-      "OCAK",
-      "ŞUBAT",
-      "MART",
-      "NİSAN",
-      "MAYIS",
-      "HAZİRAN",
-      "TEMMUZ",
-      "AĞUSTOS",
-      "EYLÜL",
-      "EKİM",
-      "KASIM",
-      "ARALIK",
-    ]
+    const months = {
+      tr: [
+        "OCAK",
+        "ŞUBAT",
+        "MART",
+        "NİSAN",
+        "MAYIS",
+        "HAZİRAN",
+        "TEMMUZ",
+        "AĞUSTOS",
+        "EYLÜL",
+        "EKİM",
+        "KASIM",
+        "ARALIK",
+      ], 
+      en: [
+        "JANUARY",
+        "FEBRUARY",
+        "MARCH",
+        "APRIL",
+        "MAY",
+        "JUNE",
+        "JULY",
+        "AUGUST",
+        "SEPTEMBER",
+        "OCTOBER",
+        "NOVEMBER",
+        "DECEMBER",
+      ]
+    }
 
     const startDay = startDate.getDate()
     const endDay = endDate.getDate()
     const startMonth = startDate.getMonth()
     const endMonth = endDate.getMonth()
-    const month = months[startMonth]
+    const month = months[language][startMonth]
     const year = startDate.getFullYear()
 
     if (startMonth === endMonth) {
       return `${startDay}-${endDay} ${month} ${year}`
     } else {
-      return `${startDay} ${month} - ${endDay} ${months[endMonth]} ${year}`
+      return `${startDay} ${month} - ${endDay} ${months[language][endMonth]} ${year}`
     }
   }
 
