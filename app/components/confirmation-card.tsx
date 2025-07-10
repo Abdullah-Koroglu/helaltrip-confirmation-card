@@ -65,13 +65,13 @@ export default function ConfirmationCard({
           </div>
         </div> */}
 
-        <div className="absolute bottom-16 right-32">
+        {/* <div className="absolute bottom-16 right-32">
           <div className="grid grid-cols-3 gap-2">
             {[...Array(9)].map((_, i) => (
               <div key={i} className="w-2 h-2 bg-white/40 rounded-full"></div>
             ))}
           </div>
-        </div>
+        </div> */}
 
         {/* Palm leaf decoration */}
         <div className="absolute top-40 left-8 w-16 h-32 opacity-30">
@@ -121,7 +121,7 @@ export default function ConfirmationCard({
                   />
                 </div>
                 <h3 className="text-2xl font-bold text-emerald-900 text-center">{hotelName || ""}</h3>
-                <p className="text-white/90 text-sm">{hotelAddress.city || ""}</p>
+                <p className="text-lg text-center text-emerald-800">{hotelAddress.city || ""}</p>
               </div>
 
               {/* Small circular image */}
@@ -177,7 +177,7 @@ export default function ConfirmationCard({
         </div>
 
         <div className="flex justify-between items-end mt-12">
-          <div className="text-white/90 text-sm">{hotelAddress.address || ""}</div>
+          <div className="text-white/90 text-lg">{hotelAddress.address || ""}</div>
         </div>
 
         {/* Footer */}
