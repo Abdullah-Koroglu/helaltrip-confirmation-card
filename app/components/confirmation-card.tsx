@@ -32,6 +32,20 @@ interface ConfirmationCardProps {
   }
 }
 
+const hotelNames = [
+  "Wome Deluxe",
+  "Angel's Marmaris",
+  "Adenya Resort",
+  "Şah Inn Paradise",
+  "The Oba",
+  "Adin Beach",
+  "Bera Alanya",
+  "Rizom Beach",
+  "Selge Beach",
+  "Royal Teos",
+  "Rizom Tatil Köyü",
+]
+
 export default function ConfirmationCard({
   customerName,
   hotelName,
@@ -120,7 +134,7 @@ export default function ConfirmationCard({
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <h3 className="text-2xl font-bold text-emerald-900 text-center">{hotelName || ""}</h3>
+                <h3 className="text-2xl font-bold text-emerald-900 text-center">{hotelNames[hotelNames.indexOf(hotelName)] || ""}</h3>
                 <p className="text-lg text-center text-emerald-800">{hotelAddress.city || ""}</p>
               </div>
 
