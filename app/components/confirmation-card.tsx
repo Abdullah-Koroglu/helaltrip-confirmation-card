@@ -33,17 +33,17 @@ interface ConfirmationCardProps {
 }
 
 const hotelNames = [
-  "Wome Deluxe",
-  "Angel's Marmaris",
-  "Adenya Resort",
-  "Şah Inn Paradise",
-  "The Oba",
-  "Adin Beach",
-  "Bera Alanya",
-  "Rizom Beach",
-  "Selge Beach",
-  "Royal Teos",
-  "Rizom Tatil Köyü",
+  {label: "Wome Deluxe", id: "Wome Deluxe"},
+  {label: "Angel's Marmaris", id: "Angel's Marmaris"},
+  {label: "Adenya Resort", id: "Adenya"},
+  {label: "Şah Inn Paradise", id: "Sah Inn"},
+  {label: "The Oba", id: "The Oba"},
+  {label: "Adin Beach", id: "Adin Beach"},
+  {label: "Bera Alanya", id: "Bera"},
+  {label: "Rizom Beach", id: "Rizom Beach"},
+  {label: "Selge Beach", id: "Selge"},
+  {label: "Royal Teos", id: "Royal Teos"},
+  {label: "Rizom Tatil Köyü", id: "Rizom Tatil Köyü"},
 ]
 
 export default function ConfirmationCard({
@@ -134,7 +134,7 @@ export default function ConfirmationCard({
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <h3 className="text-2xl font-bold text-emerald-900 text-center">{hotelNames[hotelNames.indexOf(hotelName)] || ""}</h3>
+                <h3 className="text-2xl font-bold text-emerald-900 text-center">{hotelNames.find(hotel => hotel.id === hotelName)?.label || ""}</h3>
                 <p className="text-lg text-center text-emerald-800">{hotelAddress.city || ""}</p>
               </div>
 
@@ -161,7 +161,7 @@ export default function ConfirmationCard({
 
             <div className="space-y-3 text-lg">
               <div>
-                <span className="font-semibold">{translations.hotelName}</span> {hotelName || ""}
+                <span className="font-semibold">{translations.hotelName}</span> {hotelNames.find(hotel => hotel.id === hotelName)?.label || ""}
               </div>
 
               <div>
