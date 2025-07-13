@@ -172,7 +172,10 @@ export default function ConfirmationCard({
 
               <div>
                 <span className="font-semibold">{translations.guestCount}</span> {adults} {translations.adults}{" "}
-                {childrenCount > 0 && `x ${childrenCount} ${translations.children}`} {childrenAges && `, (${childrenAges})`}
+                {childrenCount > 0 && `x ${childrenCount} ${translations.children}`} 
+                <span className="text-sm whitespace-nowrap text-nowrap">
+                {childrenAges && `- (${childrenAges})`}
+                </span>
               </div>
 
               <div>
