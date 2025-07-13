@@ -30,6 +30,7 @@ interface ConfirmationCardProps {
     reservationNumber: string
     goodHolidays: string
   }
+  childrenAges: string
 }
 
 const hotelNames = [
@@ -58,6 +59,7 @@ export default function ConfirmationCard({
   language,
   translations,
   hotelAddress,
+  childrenAges,
 }: ConfirmationCardProps) {
   return (
     <div className="relative w-full mx-auto bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-3xl overflow-hidden shadow-2xl">
@@ -170,7 +172,7 @@ export default function ConfirmationCard({
 
               <div>
                 <span className="font-semibold">{translations.guestCount}</span> {adults} {translations.adults}{" "}
-                {childrenCount > 0 && `x ${childrenCount} ${translations.children}`}
+                {childrenCount > 0 && `x ${childrenCount} ${translations.children}`} {childrenAges && `, (${childrenAges})`}
               </div>
 
               <div>
@@ -184,7 +186,7 @@ export default function ConfirmationCard({
 
               <div>
                 <span className="font-semibold">{translations.reservationNumber}</span>{" "}
-                <span className="text-xl font-mono">{reservationNumber || ""}</span>
+                <span className="font-semibold">{reservationNumber || ""}</span>
               </div>
             </div>
           </div>

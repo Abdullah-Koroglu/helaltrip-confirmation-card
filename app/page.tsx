@@ -21,6 +21,7 @@ interface ReservationData {
   roomType: string
   numberOfNights: number
   reservationNumber: string
+  childrenAges: string
 }
 
 const hotels = [
@@ -79,6 +80,7 @@ export default function HotelConfirmationGenerator() {
     roomType: "",
     numberOfNights: 1,
     reservationNumber: "",
+    childrenAges: "",
   })
 
   const [showConfirmation, setShowConfirmation] = useState(false)
@@ -282,6 +284,18 @@ export default function HotelConfirmationGenerator() {
                   </div>
                 </div>
 
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="childrenAges">Çocuk Yaşları</Label>
+                    <Input
+                      id="childrenAges"
+                      placeholder="Çocuk yaşlarını giriniz"
+                      value={reservationData.childrenAges}
+                      onChange={(e) => handleInputChange("childrenAges", e.target.value)}
+                    />
+                  </div>
+                </div>
+
                 <div className="space-y-2">
                   <Label htmlFor="roomType" className="flex items-center gap-2">
                     <Bed className="w-4 h-4" />
@@ -376,6 +390,7 @@ export default function HotelConfirmationGenerator() {
                       address: "",
                       city: "",
                     }}
+                    childrenAges={reservationData.childrenAges}
                   />
                 </div>
               </div>
