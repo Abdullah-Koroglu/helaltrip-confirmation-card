@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -82,6 +82,7 @@ export default function HotelConfirmationGenerator() {
     reservationNumber: "",
     childrenAges: "",
   })
+  const [rawJsonMode, setRawJsonMode] = useState(false)
 
   const [showConfirmation, setShowConfirmation] = useState(false)
   const [language, setLanguage] = useState<"tr" | "en">("tr")
@@ -143,7 +144,7 @@ export default function HotelConfirmationGenerator() {
         "EKİM",
         "KASIM",
         "ARALIK",
-      ], 
+      ],
       en: [
         "JANUARY",
         "FEBRUARY",
@@ -199,165 +200,189 @@ export default function HotelConfirmationGenerator() {
       <div className="container mx-auto px-4 max-w-9xl">
         <div className="grid lg:grid-cols-2 gap-4">
           {/* Form Section */}
-          <div>
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-2xl font-bold text-gray-800">Rezervasyon Bilgileri</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="space-y-2">
-                  <Label htmlFor="customerName" className="flex items-center gap-2">
-                    <Users className="w-4 h-4" />
-                    Müşteri Adı
-                  </Label>
-                  <Input
-                    id="customerName"
-                    placeholder="Müşteri adını giriniz"
-                    value={reservationData.customerName}
-                    onChange={(e) => handleInputChange("customerName", e.target.value)}
-                  />
-                </div>
+          {
+            rawJsonMode === false ?
+              <div>
+                <Card>
+                  <CardHeader>
+                    <Button onClick={() => setRawJsonMode(true)}>Json Mode</Button>
+                    <CardTitle className="text-2xl font-bold text-gray-800">Rezervasyon Bilgileri</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="customerName" className="flex items-center gap-2">
+                        <Users className="w-4 h-4" />
+                        Müşteri Adı
+                      </Label>
+                      <Input
+                        id="customerName"
+                        placeholder="Müşteri adını giriniz"
+                        value={reservationData.customerName}
+                        onChange={(e) => handleInputChange("customerName", e.target.value)}
+                      />
+                    </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="hotelName">Otel Adı</Label>
-                  <Select onValueChange={(value) => handleInputChange("hotelName", value)}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Otel seçiniz" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {hotels.map((hotel) => (
-                        <SelectItem key={hotel} value={hotel}>
-                          {hotel}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="hotelName">Otel Adı</Label>
+                      <Select onValueChange={(value) => handleInputChange("hotelName", value)}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Otel seçiniz" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {hotels.map((hotel) => (
+                            <SelectItem key={hotel} value={hotel}>
+                              {hotel}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="checkIn" className="flex items-center gap-2">
-                      <CalendarIcon className="w-4 h-4" />
-                      Giriş Tarihi
-                    </Label>
-                    <Input
-                      id="checkIn"
-                      type="date"
-                      value={reservationData.checkInDate}
-                      onChange={(e) => handleDateChange("checkInDate", e.target.value)}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="checkOut" className="flex items-center gap-2">
-                      <CalendarIcon className="w-4 h-4" />
-                      Çıkış Tarihi
-                    </Label>
-                    <Input
-                      id="checkOut"
-                      type="date"
-                      value={reservationData.checkOutDate}
-                      onChange={(e) => handleDateChange("checkOutDate", e.target.value)}
-                    />
-                  </div>
-                </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="checkIn" className="flex items-center gap-2">
+                          <CalendarIcon className="w-4 h-4" />
+                          Giriş Tarihi
+                        </Label>
+                        <Input
+                          id="checkIn"
+                          type="date"
+                          value={reservationData.checkInDate}
+                          onChange={(e) => handleDateChange("checkInDate", e.target.value)}
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="checkOut" className="flex items-center gap-2">
+                          <CalendarIcon className="w-4 h-4" />
+                          Çıkış Tarihi
+                        </Label>
+                        <Input
+                          id="checkOut"
+                          type="date"
+                          value={reservationData.checkOutDate}
+                          onChange={(e) => handleDateChange("checkOutDate", e.target.value)}
+                        />
+                      </div>
+                    </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="adults">Yetişkin Sayısı</Label>
-                    <Input
-                      id="adults"
-                      type="number"
-                      min="1"
-                      value={reservationData.adults}
-                      onChange={(e) => handleInputChange("adults", Number.parseInt(e.target.value) || 1)}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="children">Çocuk Sayısı</Label>
-                    <Input
-                      id="children"
-                      type="number"
-                      min="0"
-                      value={reservationData.children}
-                      onChange={(e) => handleInputChange("children", Number.parseInt(e.target.value) || 0)}
-                    />
-                  </div>
-                </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="adults">Yetişkin Sayısı</Label>
+                        <Input
+                          id="adults"
+                          type="number"
+                          min="1"
+                          value={reservationData.adults}
+                          onChange={(e) => handleInputChange("adults", Number.parseInt(e.target.value) || 1)}
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="children">Çocuk Sayısı</Label>
+                        <Input
+                          id="children"
+                          type="number"
+                          min="0"
+                          value={reservationData.children}
+                          onChange={(e) => handleInputChange("children", Number.parseInt(e.target.value) || 0)}
+                        />
+                      </div>
+                    </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="childrenAges">Çocuk Yaşları</Label>
-                    <Input
-                      id="childrenAges"
-                      placeholder="Çocuk yaşlarını giriniz"
-                      value={reservationData.childrenAges}
-                      onChange={(e) => handleInputChange("childrenAges", e.target.value)}
-                    />
-                  </div>
-                </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="childrenAges">Çocuk Yaşları</Label>
+                        <Input
+                          id="childrenAges"
+                          placeholder="Çocuk yaşlarını giriniz"
+                          value={reservationData.childrenAges}
+                          onChange={(e) => handleInputChange("childrenAges", e.target.value)}
+                        />
+                      </div>
+                    </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="roomType" className="flex items-center gap-2">
-                    <Bed className="w-4 h-4" />
-                    Oda Tipi
-                  </Label>
-                  <Input
-                    id="roomType"
-                    placeholder="Oda tipini giriniz"
-                    value={reservationData.roomType}
-                    onChange={(e) => handleInputChange("roomType", e.target.value)}
-                  />
-                </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="roomType" className="flex items-center gap-2">
+                        <Bed className="w-4 h-4" />
+                        Oda Tipi
+                      </Label>
+                      <Input
+                        id="roomType"
+                        placeholder="Oda tipini giriniz"
+                        value={reservationData.roomType}
+                        onChange={(e) => handleInputChange("roomType", e.target.value)}
+                      />
+                    </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="nights" className="flex items-center gap-2">
-                    <Calendar className="w-4 h-4" />
-                    Gece Sayısı
-                  </Label>
-                  <Input
-                    id="nights"
-                    type="number"
-                    min="1"
-                    value={reservationData.numberOfNights}
-                    onChange={(e) => handleInputChange("numberOfNights", Number.parseInt(e.target.value) || 1)}
-                  />
-                </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="nights" className="flex items-center gap-2">
+                        <Calendar className="w-4 h-4" />
+                        Gece Sayısı
+                      </Label>
+                      <Input
+                        id="nights"
+                        type="number"
+                        min="1"
+                        value={reservationData.numberOfNights}
+                        onChange={(e) => handleInputChange("numberOfNights", Number.parseInt(e.target.value) || 1)}
+                      />
+                    </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="reservationNumber" className="flex items-center gap-2">
-                    <Hash className="w-4 h-4" />
-                    Rezervasyon Numarası
-                  </Label>
-                  <Input
-                    id="reservationNumber"
-                    placeholder="Rezervasyon numarasını giriniz"
-                    value={reservationData.reservationNumber}
-                    onChange={(e) => handleInputChange("reservationNumber", e.target.value)}
-                  />
-                </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="reservationNumber" className="flex items-center gap-2">
+                        <Hash className="w-4 h-4" />
+                        Rezervasyon Numarası
+                      </Label>
+                      <Input
+                        id="reservationNumber"
+                        placeholder="Rezervasyon numarasını giriniz"
+                        value={reservationData.reservationNumber}
+                        onChange={(e) => handleInputChange("reservationNumber", e.target.value)}
+                      />
+                    </div>
 
-                <div className="space-y-2">
-                  <Label className="flex items-center gap-2">
-                    <Globe className="w-4 h-4" />
-                    Kart Dili
-                  </Label>
-                  <Select value={language} onValueChange={(value: "tr" | "en") => setLanguage(value)}>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="tr">Türkçe</SelectItem>
-                      <SelectItem value="en">English</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+                    <div className="space-y-2">
+                      <Label className="flex items-center gap-2">
+                        <Globe className="w-4 h-4" />
+                        Kart Dili
+                      </Label>
+                      <Select value={language} onValueChange={(value: "tr" | "en") => setLanguage(value)}>
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="tr">Türkçe</SelectItem>
+                          <SelectItem value="en">English</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
 
-                <Button onClick={generateConfirmation} className="w-full bg-emerald-500 hover:bg-emerald-600" size="lg">
-                  Onay Kartı Oluştur
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
+                    <Button onClick={generateConfirmation} className="w-full bg-emerald-500 hover:bg-emerald-600" size="lg">
+                      Onay Kartı Oluştur
+                    </Button>
+                  </CardContent>
+                </Card>
+              </div>
+
+              : rawJsonMode === true ?
+
+                <div>
+                  <Card>
+                    <CardHeader>
+                      <Button onClick={() => setRawJsonMode(false)}>Form Mode</Button>
+                      <CardTitle>Raw JSON Data</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <textarea value={JSON.stringify(reservationData, null, 2)} onChange={(e) => setReservationData(JSON.parse(e.target.value))} className="w-full h-[20rem] border rounded-md p-2" />
+                    </CardContent>
+                    <CardFooter>
+                      <Button onClick={generateConfirmation} className="w-full bg-emerald-500 hover:bg-emerald-600" size="lg">
+                        Onay Kartı Oluştur
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                </div>
+                : null
+          }
 
           {/* Confirmation Card Section */}
           <div>
