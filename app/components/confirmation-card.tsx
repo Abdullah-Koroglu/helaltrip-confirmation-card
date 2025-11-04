@@ -29,6 +29,7 @@ interface ConfirmationCardProps {
     night: string
     reservationNumber: string
     goodHolidays: string
+    nonReturnableMessage: string
   }
   childrenAges: string
 }
@@ -197,8 +198,9 @@ export default function ConfirmationCard({
           </div>
         </div>
 
-        <div className="flex justify-between items-end mt-12">
-          <div className="text-white/90 text-lg">{hotelAddress.address || ""}</div>
+        <div className="flex justify-between mt-12 flex-col">
+          <div className="text-white/90 text-lg">{hotelAddress.address || ""}</div> <br />
+          <div className="text-white/90 italic">{translations.nonReturnableMessage || ""}</div>
         </div>
 
         {/* Footer */}
