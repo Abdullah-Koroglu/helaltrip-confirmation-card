@@ -10,6 +10,7 @@ import { CalendarIcon, Users, Bed, Calendar, Hash, Globe } from "lucide-react"
 import ConfirmationCard from "./components/confirmation-card"
 import html2canvas from "html2canvas-pro"
 import { addresses } from "./components/addresses"
+import { Checkbox } from "@/components/ui/checkbox"
 
 interface ReservationData {
   customerName: string
@@ -22,6 +23,9 @@ interface ReservationData {
   numberOfNights: number
   reservationNumber: string
   childrenAges: string
+  isNonRefundable?: boolean
+  paymentDate: string
+  paymentMethod: string
 }
 
 const hotels = [
@@ -83,6 +87,9 @@ export default function HotelConfirmationGenerator() {
     numberOfNights: 1,
     reservationNumber: "",
     childrenAges: "",
+    isNonRefundable: false,
+    paymentDate: "",
+    paymentMethod: "No"
   })
   const [rawJsonMode, setRawJsonMode] = useState(false)
 
@@ -108,7 +115,7 @@ export default function HotelConfirmationGenerator() {
     return 1
   }
 
-  const handleDateChange = (field: "checkInDate" | "checkOutDate", value: string) => {
+  const handleDateChange = (field: "checkInDate" | "checkOutDate" | "paymentDate", value: string) => {
     const updatedData = { ...reservationData, [field]: value }
 
     if (field === "checkInDate" || field === "checkOutDate") {
@@ -175,6 +182,15 @@ export default function HotelConfirmationGenerator() {
     } else {
       return `${startDay} ${month} - ${endDay} ${months[language][endMonth]} ${year}`
     }
+  }
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString)
+    const day = date.getDate()
+    const month = date.getMonth()
+    const year = date.getFullYear()
+
+    return `${day}/${month + 1}/${year}`
   }
 
   const downloadScreenshot = async () => {
@@ -358,6 +374,46 @@ export default function HotelConfirmationGenerator() {
                       </Select>
                     </div>
 
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-3">
+                        <Checkbox checked={reservationData.isNonRefundable} onCheckedChange={(value: any) => setReservationData((oldData) => ({ ...oldData, isNonRefundable: value }))} id="refund" />
+                        <Label htmlFor="refund">Iade edilemez mi?</Label>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-3">
+                        <div className="space-y-2">
+                          <Label htmlFor="paymentDate" className="flex items-center gap-2">
+                            <CalendarIcon className="w-4 h-4" />
+                            Ödeme Tarihi
+                          </Label>
+                          <Input
+                            id="paymentDate"
+                            type="date"
+                            value={reservationData.paymentDate}
+                            onChange={(e) => handleDateChange("paymentDate", e.target.value)}
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="paymentDate" className="flex items-center gap-2">
+                            <CalendarIcon className="w-4 h-4" />
+                            Ödeme Metodu
+                          </Label>
+                          <Select value={reservationData.paymentMethod} onValueChange={(e) => handleInputChange("paymentMethod", e)}>
+                            <SelectTrigger>
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="Kredi Kartı">Kredi Kartı</SelectItem>
+                              <SelectItem value="Havale">Havale</SelectItem>
+                              <SelectItem value="No">No</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      </div>
+                    </div>
+
                     <Button onClick={generateConfirmation} className="w-full bg-emerald-500 hover:bg-emerald-600" size="lg">
                       Onay Kartı Oluştur
                     </Button>
@@ -410,6 +466,8 @@ export default function HotelConfirmationGenerator() {
                     roomType={reservationData.roomType}
                     numberOfNights={reservationData.numberOfNights}
                     reservationNumber={reservationData.reservationNumber}
+                    paymentDate={formatDate(reservationData.paymentDate)}
+                    paymentMethod={reservationData.paymentMethod}
                     language={language}
                     translations={languages[language]}
                     hotelAddress={addresses.find((address) => address.name === reservationData.hotelName) || {
@@ -418,6 +476,7 @@ export default function HotelConfirmationGenerator() {
                       city: "",
                     }}
                     childrenAges={reservationData.childrenAges}
+                    isNonRefundable={reservationData.isNonRefundable}
                   />
                 </div>
               </div>

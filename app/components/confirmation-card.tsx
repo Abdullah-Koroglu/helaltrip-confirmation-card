@@ -16,6 +16,9 @@ interface ConfirmationCardProps {
     address: string
     city: string
   }
+  isNonRefundable?: boolean
+  paymentDate?: string;
+  paymentMethod?: string;
   translations: {
     reservationReady: string
     dear: string
@@ -35,17 +38,17 @@ interface ConfirmationCardProps {
 }
 
 const hotelNames = [
-  {label: "Wome Deluxe", id: "Wome Deluxe"},
-  {label: "Angel's Marmaris", id: "Angel's Marmaris"},
-  {label: "Adenya Resort", id: "Adenya"},
-  {label: "Şah Inn Paradise", id: "Sah Inn"},
-  {label: "The Oba", id: "The Oba"},
-  {label: "Adin Beach", id: "Adin Beach"},
-  {label: "Bera Alanya", id: "Bera"},
-  {label: "Rizom Beach", id: "Rizom Beach"},
-  {label: "Selge Beach", id: "Selge"},
-  {label: "Royal Teos", id: "Royal Teos"},
-  {label: "Rizom Tatil Köyü", id: "Rizom Tatil Köyü"},
+  { label: "Wome Deluxe", id: "Wome Deluxe" },
+  { label: "Angel's Marmaris", id: "Angel's Marmaris" },
+  { label: "Adenya Resort", id: "Adenya" },
+  { label: "Şah Inn Paradise", id: "Sah Inn" },
+  { label: "The Oba", id: "The Oba" },
+  { label: "Adin Beach", id: "Adin Beach" },
+  { label: "Bera Alanya", id: "Bera" },
+  { label: "Rizom Beach", id: "Rizom Beach" },
+  { label: "Selge Beach", id: "Selge" },
+  { label: "Royal Teos", id: "Royal Teos" },
+  { label: "Rizom Tatil Köyü", id: "Rizom Tatil Köyü" },
 ]
 
 export default function ConfirmationCard({
@@ -61,6 +64,9 @@ export default function ConfirmationCard({
   translations,
   hotelAddress,
   childrenAges,
+  isNonRefundable,
+  paymentDate,
+  paymentMethod,
 }: ConfirmationCardProps) {
   return (
     <div className="relative w-full mx-auto bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-3xl overflow-hidden shadow-2xl">
@@ -129,7 +135,7 @@ export default function ConfirmationCard({
             <div className="relative">
               <div className="bg-white/20 backdrop-blur-sm rounded-3xl p-6 mb-4">
                 <div className="aspect-video bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl overflow-hidden mb-4">
-                  <Image
+                  <img
                     src={`hotels/${hotelName}.jpg`}
                     alt="Hotel view"
                     width={300}
@@ -174,10 +180,10 @@ export default function ConfirmationCard({
               <div>
                 <span className="font-semibold">{translations.guestCount}</span> {adults} {translations.adults}{" "}
                 <span className="whitespace-nowrap text-nowrap">
-                {childrenCount > 0 && `x ${childrenCount} ${translations.children}`} 
+                  {childrenCount > 0 && `x ${childrenCount} ${translations.children}`}
                 </span>
                 <span className="text-sm whitespace-nowrap text-nowrap ml-2">
-                {childrenAges && `- (${childrenAges})`}
+                  {childrenAges && `- (${childrenAges})`}
                 </span>
               </div>
 
@@ -198,9 +204,12 @@ export default function ConfirmationCard({
           </div>
         </div>
 
-        <div className="flex justify-between mt-12 flex-col">
-          <div className="text-white/90 text-lg">{hotelAddress.address || ""}</div> <br />
-          <div className="text-white/90 italic">{translations.nonReturnableMessage || ""}</div>
+        <div className="mt-12 space-y-2">
+          <div className="text-white/90 text-lg">{hotelAddress.address || ""}</div> 
+          <div className="text-white/90">
+            {paymentMethod !== 'No' ? `Ödemeniz ${paymentDate} tarihinde ${paymentMethod} yoluyla alınmıştır.` : ''}
+          </div> 
+          {isNonRefundable && <div className="text-white/90 italic">{translations.nonReturnableMessage || ""}</div>}
         </div>
 
         {/* Footer */}
@@ -215,7 +224,7 @@ export default function ConfirmationCard({
 
           <div className="text-right">
             <div className="text-4xl text-emerald-800 mb-2">Helaltrip</div>
-            <div className="bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 text-center"> 
+            <div className="bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 text-center">
               <span className="text-emerald-900 font-semibold">{translations.goodHolidays}</span>
             </div>
           </div>
