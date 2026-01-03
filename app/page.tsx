@@ -56,7 +56,7 @@ const languages = {
     night: "Gece",
     reservationNumber: "Rezervasyon Numarası:",
     goodHolidays: "İyi Tatiller",
-    nonReturnableMessage: "Fiyatlarımız iade edilemez.",
+    nonReturnableMessage: "Rezervasyon iptal iade ve değişikliğe kapalıdır.",
   },
   en: {
     reservationReady: "Your reservation is ready.",
@@ -71,7 +71,7 @@ const languages = {
     night: "Night",
     reservationNumber: "Reservation Number:",
     goodHolidays: "Good Holidays",
-    nonReturnableMessage: "Prices are non-refundable.",
+    nonReturnableMessage: "Reservation cancellation, change and refund is closed.",
   },
 }
 
