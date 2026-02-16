@@ -45,10 +45,10 @@ const hotelNames = [
   { label: "The Oba", id: "The Oba" },
   { label: "Adin Beach", id: "Adin Beach" },
   { label: "Bera Alanya", id: "Bera" },
-  { label: "Rizom Beach", id: "Rizom Beach Kumluca" },
+  { label: "Rizom Beach Kumluca", id: "Rizom Beach" },
   { label: "Selge Beach", id: "Selge" },
   { label: "Royal Teos", id: "Royal Teos" },
-  { label: "Rizom Tatil Köyü", id: "Rizom Village Assos Resort" },
+  { label: "Rizom Village Assos Resort", id: "Rizom Tatil Köyü" },
 ]
 
 export default function ConfirmationCard({
