@@ -40,6 +40,7 @@ const hotels = [
   "Selge",
   "Royal Teos",
   "Rizom Tatil Köyü",
+  "Modern Saraylar",
 ]
 
 const languages = {
@@ -224,7 +225,7 @@ export default function HotelConfirmationGenerator() {
                 <Card>
                   <CardHeader>
                     <Button onClick={() => setRawJsonMode(true)}>Json Mode</Button>
-                    <CardTitle className="text-2xl font-bold text-gray-800">Rezervasyon Bilgileri</CardTitle>
+                    <CardTitle className="text-2xl font-bold text-gray-800">Rezervasyon Bilgileri test</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-6">
                     <div className="space-y-2">

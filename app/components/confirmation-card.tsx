@@ -49,6 +49,7 @@ const hotelNames = [
   { label: "Selge Beach", id: "Selge" },
   { label: "Royal Teos", id: "Royal Teos" },
   { label: "Rizom Village Assos Resort", id: "Rizom Tatil Köyü" },
+  { label: "Modern Saraylar", id: "Modern Saraylar" },
 ]
 
 export default function ConfirmationCard({

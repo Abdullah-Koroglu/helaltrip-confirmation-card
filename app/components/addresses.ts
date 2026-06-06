@@ -53,5 +53,10 @@ export const addresses = [
     "name": "Rizom Tatil Köyü",
     "address": "Mücavir mevkii sahil yolu, 17600 Akçakeçili/Ezine/Çanakkale",
     "city": "Çanakkale / Akçakeçili"
+  },
+  {
+    "name": "Modern Saraylar",
+    "address": "Kabacam Mevkii Katrancı Cad No:13, Avsallar, 07410 Alanya/Antalya",
+    "city": "Antalya / Alanya"
   }
 ]
