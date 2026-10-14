@@ -25,7 +25,7 @@ export const addresses = [
     "city": "Muğla / Bodrum"
   },
   {
-    "name": "Adin Beach",
+    "name": "Adin Resort",
     "address": "Türkler, Akdeniz Bulvarı No:41",
     "city": "Antalya / Alanya"
   },

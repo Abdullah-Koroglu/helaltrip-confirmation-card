@@ -43,7 +43,7 @@ const hotelNames = [
   { label: "Adenya Resort", id: "Adenya" },
   { label: "Şah Inn Paradise", id: "Sah Inn" },
   { label: "The Oba", id: "The Oba" },
-  { label: "Adin Beach", id: "Adin Beach" },
+  { label: "Adin Resort", id: "Adin Resort" },
   { label: "Bera Alanya", id: "Bera" },
   { label: "Rizom Beach Kumluca", id: "Rizom Beach" },
   { label: "Selge Beach", id: "Selge" },

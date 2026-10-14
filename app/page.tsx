@@ -34,7 +34,7 @@ const hotels = [
   "Adenya",
   "Sah Inn",
   "The Oba",
-  "Adin Beach",
+  "Adin Resort",
   "Bera",
   "Rizom Beach",
   "Selge",
